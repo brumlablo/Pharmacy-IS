@@ -1,0 +1,9 @@
+parameters:
+
+
+database:
+	dsn: 'mysql:dbname=xhamer02;host=localhost;mysql_socket=/var/run/mysql/mysql.sock'
+	user: 'xhamer02'
+	password: 'e8edurge'
+	options:
+		lazy: yes

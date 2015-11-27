@@ -1,0 +1,25 @@
+{* Latte template *}
+
+{block content}
+<div>
+    <table class="data table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Ean ID</th>
+                <th>Název léku</th>
+                <th>Popis</th>
+                <th>Objem</th>
+            </tr>
+        </thead>
+        <tbody>
+        {foreach $leky as $lek}
+            <tr>
+                <td>{$lek->ean_id}</td>
+                <td>{$lek->nazev}</td>
+                <td>{$lek->popis}</td>
+                <td>{$lek->objem}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+</div>

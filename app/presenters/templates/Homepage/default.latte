@@ -1,0 +1,13 @@
+{block content}
+<div>Hello world!</div>
+
+<div n:foreach="$more_vole_cigan as $cigan" class="leky">
+    <p>{$cigan->pacient_jmeno}</p>
+    
+    {foreach $cigan->related('polozkaRez') as $hovno} 
+            <div>{$hovno->lek->nazev}</div>
+        
+    {/foreach}
+    
+</div>
+{/block}
