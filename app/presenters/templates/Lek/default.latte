@@ -1,5 +1,64 @@
 {* Latte template *}
 
+{block scripts}
+    {include #parent}
+<script type="text/javascript">
+    (function($){
+            
+        $.extend({
+            updateSnippet: function(id, html) {
+                $("#" + id).html(html);
+            },
+            netteCallback: function(data) {
+                // přesměrování
+                if (data.redirect) {
+                        window.location.href = data.redirect;
+                }
+                // snippety
+                if (data.snippets) {
+                        for (var i in data.snippets) {
+                                $.updateSnippet(i, data.snippets[i]);
+                        }
+                }
+            }
+        });
+        
+        $.ajaxSetup({
+            success: function (data) {
+                    $.netteCallback(data);
+            },
+            dataType: "json"
+        }); 
+        
+        $(document).on("click","a[rel='modal']",function(event){
+            event.preventDefault();
+            $.get(this.href).done(function(){
+               $("#modal_window").modal("show"); 
+            });
+        });
+        $(document).on("click","a.modal_cancel",function(event){
+            event.preventDefault();
+            $("#modal_window").modal("hide"); 
+        });
+        /*
+        $(document).ready(function(){
+            $("a[rel='modal']").click(function(e){
+                $.nette.ajax({
+                    url: {link edit!},
+                    type: 'POST',
+                    data: {
+                        idLek: $(this).attr("id")
+                    },
+                    success: function (payload) {
+                    }
+                });
+                return false;
+            });
+        });*/
+    })(jQuery);
+</script>
+{/block}
+
 {block content}
 <div>
     <table class="data table-hover table-striped">
@@ -14,7 +73,7 @@
         <tbody>
         {foreach $leky as $lek}
             <tr>
-                <td>{$lek->ean_id}</td>
+                <td><a id="{$lek->ean_id}" n:href="edit! $lek->ean_id" rel="modal">{$lek->ean_id}</a></td>
                 <td>{$lek->nazev}</td>
                 <td>{$lek->popis}</td>
                 <td>{$lek->objem}</td>

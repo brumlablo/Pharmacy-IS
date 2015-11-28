@@ -1,10 +1,30 @@
 {* Latte template *}
 
+
+{define edit-inside}
+
+{control lekEditForm}
+
+{*
+    <p><a n:href="Lek:default">← zpět na výpis příspěvků</a></p>
+
+
+    <h1 >{$lek->nazev}</h1>
+
+    <div >{$lek->popis}</div>*}
+{/define}
+
+
+{define modalcontent}
+<div class="modal-header">
+    <p>Úprava léku</p>
+</div>
+<div class="modal-body">
+    {include edit-inside}
+</div>
+{/define}
+
+
 {block content}
-
-<p><a n:href="Homepage:default">← zpět na výpis příspěvků</a></p>
-
-
-<h1 n:block="title">{$post->nazev}</h1>
-
-<div class="post">{$post->popis}</div>
+    {include edit-inside}
+{/block}

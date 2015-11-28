@@ -19,13 +19,10 @@
     
     {block scripts}
             
-        <script src="{$basePath}/js/jquery-2.1.4.min.js" defer></script>
-        <script src="{$basePath}/js/bootstrap.min.js" defer></script>
-        <script src="{$basePath}/js/iis.js" defer></script>
-    {*
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-    <script src="{$basePath}/js/main.js"></script>*}
+        <script src="{$basePath}/js/jquery-2.1.4.min.js"></script>
+        <script src="{$basePath}/js/nette.ajax.js"></script>
+        <script src="{$basePath}/js/bootstrap.min.js"></script>
+        <script src="{$basePath}/js/iis.js"></script>
     {/block}
 </head>
 
@@ -36,7 +33,7 @@
         <hr/>
     </header>
     
-    <main>
+    <main n:snippet="sitecontent">
         {include content}
     </main>
 
@@ -44,6 +41,14 @@
         <hr/>
     </footer>
     
-    
+    <div id="modal_window" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {snippet modalcontent}
+                {block modalcontent}{/block}
+                {/snippet}
+            </div>    
+        </div>  
+    </div>
 </body>
 </html>
