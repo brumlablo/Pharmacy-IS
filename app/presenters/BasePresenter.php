@@ -12,47 +12,47 @@ use App\Model;
 abstract class BasePresenter extends Nette\Application\UI\Presenter
 {
     
-    /** @var \App\Menus\IMenuFactory @inject */
+    /** @var \App\Forms\BootstrapForm @inject */
+    public $bootstrapForm;
+    /** @var \App\Components\IMenuFactory @inject */
     public $menuControlFactory;
+    /** @var \App\Components\IBasketFactory @inject */
+    public $basketFactory;
+    /** @var \App\Components\ILogoutFactory @inject */
+    public $logoutFactory;
     
     protected function createComponentMenu(){
         $control = $this->menuControlFactory->create();
         $control->addMenuOption("Úvod","Homepage:");
         $control->addMenuOption("Lék","Lek:");
+        $control->addMenuOption("Rezervace","Rezervace:");
         return $control;
     }
     
+    protected function createComponentBasket(){
+        $ctrl = $this->basketFactory->create();
+        return $ctrl;
+    }
     
-    protected function createBootstrapForm(){
-        $form = new Nette\Application\UI\Form;
-        $renderer = $form->getRenderer();
-        
-        $renderer->wrappers['controls']['container'] = NULL;
-        $renderer->wrappers['pair']['container'] = 'div class=form-group';
-        $renderer->wrappers['pair']['.error'] = 'has-error';
-        $renderer->wrappers['label']['container'] = 'div class="col-sm-3 control-label"';
-        $renderer->wrappers['control'] = array(
-		'container' => 'div class=col-sm-9',
-		'.odd' => NULL,
-
-		'description' => 'span class=help-block',
-		'requiredsuffix' => '',
-		'errorcontainer' => 'span class=help-block',
-		'erroritem' => '',
-
-		'.required' => 'required',
-		'.text' => 'form-control',
-		'.password' => 'form-control',
-		'.file' => 'text',
-		'.submit' => "btn btn-success",
-		'.image' => 'imagebutton',
-		'.button' => "btn btn-default",
-	);
-        
-        $form->getElementPrototype()
-                ->class('form-horizontal page-form')
-                ->role('form');
-        return $form;
-        
+    protected function createComponentLogout(){
+        $logout = $this->logoutFactory->create();
+        return $logout;
+    }
+    
+    public function handleLogout(){
+        $this->getUser()->logout(TRUE);
+        $this->redirect("Homepage:");
+    }
+    
+    
+    public function startup() {
+        parent::startup();
+        if($this->getUser()->isLoggedIn()){
+            return;
+        }
+        if($this->getName() !== "Homepage" || $this->getAction() !== "default"){
+            $this->redirect("Homepage:default");
+            return;
+        }
     }
 }

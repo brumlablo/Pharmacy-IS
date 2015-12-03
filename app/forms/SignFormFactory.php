@@ -23,35 +23,25 @@ class SignFormFactory extends Nette\Object
 	 */
 	public function create()
 	{
-		$form = new Form;
+                $test = new BootstrapForm;
+		$form = $test->create();
 		$form->addText('username', 'Username:')
-			->setRequired('Please enter your username.');
+			->setRequired('Prosím zadejte své uživatelské jméno.');
 
 		$form->addPassword('password', 'Password:')
-			->setRequired('Please enter your password.');
+			->setRequired('Prosím zadejte své heslo.');
 
-		$form->addCheckbox('remember', 'Keep me signed in');
+		$x=$form->addCheckbox('remember', 'Keep me signed in')
+                        ->getSeparatorPrototype()->class("checkbox");
+                        
+                
 
 		$form->addSubmit('send', 'Sign in');
 
-		$form->onSuccess[] = array($this, 'formSucceeded');
 		return $form;
 	}
 
 
-	public function formSucceeded(Form $form, $values)
-	{
-		if ($values->remember) {
-			$this->user->setExpiration('14 days', FALSE);
-		} else {
-			$this->user->setExpiration('20 minutes', TRUE);
-		}
-
-		try {
-			$this->user->login($values->username, $values->password);
-		} catch (Nette\Security\AuthenticationException $e) {
-			$form->addError($e->getMessage());
-		}
-	}
+	
 
 }

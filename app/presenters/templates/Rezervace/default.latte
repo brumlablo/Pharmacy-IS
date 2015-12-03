@@ -1,0 +1,8 @@
+{* Latte template *}
+
+{block content}
+
+{foreach $rezervace as $rezer}
+    <p> {$rezer->pacient_jmeno} <br/>
+        {$rezer->related('polozkaRez')->count('*')}</p>
+{/foreach}

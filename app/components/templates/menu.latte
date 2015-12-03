@@ -1,0 +1,7 @@
+{* Latte template *}
+{block menu}
+<ul class="nav navbar-nav">
+    {foreach $menu as $menuItem}
+        <li {ifCurrent $menuItem[1]}class="active"{/ifCurrent}><a href="{plink $menuItem[1]}">{$menuItem[0]}{ifCurrent $menuItem[1]}<span class="sr-only">(současný)</span>{/ifCurrent}</a></li>
+    {/foreach}
+</ul>

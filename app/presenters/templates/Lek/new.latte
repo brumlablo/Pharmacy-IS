@@ -1,7 +1,6 @@
 {* Latte template *}
 
-
-{define edit-inside}
+{define new-inside}
 
 {control lekForm}
 
@@ -10,10 +9,10 @@
 
 {define modalcontent}
 <div class="modal-header">
-    <p>Úprava léku</p>
+    <p>Přidání Léku</p>
 </div>
 <div class="modal-body">
-    {include edit-inside}
+    {include new-inside}
 </div>
 {/define}
 
@@ -21,3 +20,4 @@
 {block content}
     {include edit-inside}
 {/block}
+

@@ -16,13 +16,19 @@ application:
 
 
 session:
-	expiration: 14 days
+    expiration: 14 days
+    savePath: "%tempDir%/sessions"
 
 
 services:
+    - App\Forms\BootstrapForm    
     - App\Model\UserManager
+    - App\Model\LekModel
     - App\Forms\SignFormFactory
-    - App\Menus\IMenuFactory
+    - App\Forms\BasketFormFactory
+    - App\Components\IMenuFactory
+    - App\Components\IBasketFactory
+    - App\Components\ILogoutFactory
     router: App\RouterFactory::createRouter
 
     cacheStorage:

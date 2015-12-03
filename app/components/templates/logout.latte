@@ -1,0 +1,20 @@
+{* Latte template *}
+{block logout}
+{*<div class="logout">
+    {ifset $name}
+    <span> </span>
+    <a href="{plink "logout!"}"> Odhlásit </a>
+    {/ifset}
+</div>
+*}
+
+
+<li>
+    {ifset $name}
+        <p class="navbar-text">Přihlášen jako {$name}</p>
+    {/ifset}
+</li>
+<li >
+    
+    <a class="navbar-link" href="{plink "logout!"}"> Odhlásit </a>
+</li>

@@ -1,0 +1,34 @@
+{* Latte template *}
+
+{block basket}
+{*<div n:snippet="basket" class="basket">
+    <span> {$countItems} </span>
+    <a href="{plink "Kosik:"}"> Přejít do košíku </a>
+</div>*}
+
+<li n:snippet="basket" class="dropdown">
+    <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#" aria-expanded="false">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        
+        
+         Košík {if $countItems>0}<span><span class="badge">{$countItems}</span> {/if}
+    </a>
+    <ul class="dropdown-menu dropdown-cart">
+        {if $countItems>0}
+            
+        {foreach $leky as $lek}
+            <li> <div class="item"><div class="item-info"><div>{$lek->nazev}</div><div>Počet Kusů: {$count[$lek->ean_id]}</div></div></div></li>
+        {/foreach}
+            
+        {if $countItems>5}
+            <li> <p>{$moreText}</p> </li>
+        
+        {/if} 
+        <li class="divider"></li>
+        <li><a href="{plink "Kosik:"}">Zobrazit Košík</a></li>
+        {else}
+        <li><p class="navbar-text"> Košík je prázný</p> </li>
+        {/if}
+    </ul>
+</li>
+

@@ -3,80 +3,47 @@
 {block scripts}
     {include #parent}
 <script type="text/javascript">
-    (function($){
-            
-        $.extend({
-            updateSnippet: function(id, html) {
-                $("#" + id).html(html);
-            },
-            netteCallback: function(data) {
-                // přesměrování
-                if (data.redirect) {
-                        window.location.href = data.redirect;
-                }
-                // snippety
-                if (data.snippets) {
-                        for (var i in data.snippets) {
-                                $.updateSnippet(i, data.snippets[i]);
-                        }
-                }
-            }
-        });
-        
-        $.ajaxSetup({
-            success: function (data) {
-                    $.netteCallback(data);
-            },
-            dataType: "json"
-        }); 
-        
-        $(document).on("click","a[rel='modal']",function(event){
-            event.preventDefault();
-            $.get(this.href).done(function(){
-               $("#modal_window").modal("show"); 
-            });
-        });
-        $(document).on("click","a.modal_cancel",function(event){
-            event.preventDefault();
-            $("#modal_window").modal("hide"); 
-        });
-        /*
-        $(document).ready(function(){
-            $("a[rel='modal']").click(function(e){
-                $.nette.ajax({
-                    url: {link edit!},
-                    type: 'POST',
-                    data: {
-                        idLek: $(this).attr("id")
-                    },
-                    success: function (payload) {
-                    }
-                });
-                return false;
-            });
-        });*/
-    })(jQuery);
+ 
 </script>
 {/block}
 
 {block content}
 <div>
-    <table class="data table-hover table-striped">
+    <a n:href="new!" rel="modal_open">Nový lék</a>
+    <table class="data table table-hover table-striped">
         <thead>
             <tr>
                 <th>Ean ID</th>
                 <th>Název léku</th>
-                <th>Popis</th>
+                {*<th>Popis</th>*}
                 <th>Objem</th>
+                <th>Cena</th>
+                <th>Pocet KS</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody n:snippet="table_leks">
         {foreach $leky as $lek}
             <tr>
-                <td><a id="{$lek->ean_id}" n:href="edit! $lek->ean_id" rel="modal">{$lek->ean_id}</a></td>
+                <td><a id="{$lek->ean_id}" n:href="edit! $lek->ean_id" rel="modal_open">{$lek->ean_id}</a></td>
                 <td>{$lek->nazev}</td>
-                <td>{$lek->popis}</td>
+                {*<td>{$lek->popis|truncate:50}</td>*}
                 <td>{$lek->objem}</td>
+                <td>{$lek->cena}</td>
+                <td>{$lek->pocet_ks}</td>
+                <td>
+                    {*{control basketForm $lek}*}
+                    {form basketForm-$lek->ean_id-$lek->pocet_ks role=>"form", class=>"form-inline ajax"}
+                                                {input ean}
+
+                        <div class="input-group">{input count, class=>"form-control"}
+                            <span class="input-group-btn">
+                                {label add,class=>"btn btn-primary"} <span class="glyphicon glyphicon-shopping-cart"></span> Přidat{input add, class=>"hidden"}{/label}
+                            </span>
+                        </div>
+                    {/form}
+                    
+                </td>
             </tr>
         {/foreach}
         </tbody>
